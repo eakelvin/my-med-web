@@ -11,7 +11,11 @@ const loginUser = asyncHandler(async (req, res) => {
             _id: user._id,
             firstname: user.firstname,
             lastname: user.lastname,
-            email: user.email
+            email: user.email,
+            phone: user.phone,
+            gender: user.gender,
+            country: user.country,
+            dateOfBirth: user.dateOfBirth
         })
     } else {
         res.status(401)

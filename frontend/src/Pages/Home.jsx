@@ -4,30 +4,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useLogoutMutation } from '../Slices/userSlice'
 import { clearCredentials } from '../Slices/authSlice'
 import { IoNotificationsCircleOutline } from "react-icons/io5";
+import Dropdown from '../Components/Dropdown'
 
 const Home = () => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
     const { userInfo } = useSelector((state) => state.auth)
-    const [logoutApiCall] = useLogoutMutation()
-
-    console.log('userInfo:', userInfo);
-
-    const handleLogout = async () => {
-        try {
-            await logoutApiCall().unwrap()
-            dispatch(clearCredentials())
-            navigate('/')
-        } catch (error) {
-            console.log(error);
-        }
-
-    }
+    // console.log('userInfo:', userInfo);
 
     return (
-        <div>
-            <button onClick={handleLogout}>Logout</button>
-
+        <div className='p-4'>
+            <Dropdown />
             {userInfo ? (
                 <>
                 <div className="relative flex flex-col w-full min-w-0 mb-6 break-words border border-dashed bg-clip-border rounded-2xl border-stone-200 bg-light/30 draggable">
@@ -72,7 +57,7 @@ const Home = () => {
                     <h1>Upcoming Schedule</h1>
                 </div>
                 <div>
-                    <Link to='schedule'>View All</Link>
+                    <Link to='/schedule'>View All</Link>
                 </div>
             </div>
 
