@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { clearCredentials } from '../Slices/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../Slices/userSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Dropdown = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [isOpen, setIsOpen] = useState(false);
     const [logoutApiCall] = useLogoutMutation()
+    const { userInfo } = useSelector((state) => state.auth)
     
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -34,7 +35,7 @@ const Dropdown = () => {
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 type="button"
             >
-                Dashboard
+                {userInfo.firstname} {userInfo.lastname}
                 <svg
                 className={`w-2.5 h-2.5 ms-3 ${isOpen ? 'transform rotate-180' : ''}`}
                 aria-hidden="true"
