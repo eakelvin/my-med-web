@@ -8,13 +8,14 @@ const {
         updateMedicine, 
         deleteMedicine 
 } = require('../controllers/medicineController')
+const { protect } = require('../middleware/authMiddleware')
 
-router.post('/medicine', addMedicine)
-router.get('/medicine', getMedicines)
-router.get('/medicine/:id', getMedicine)
-router.put('/medicine/:id', updateMedicine)
-router.delete('/medicine/:id', deleteMedicine)
+router.post('/medicine', protect, addMedicine)
+router.get('/medicine', protect, getMedicines)
+router.get('/medicine/:id', protect, getMedicine)
+router.put('/medicine/:id', protect, updateMedicine)
+router.delete('/medicine/:id', protect, deleteMedicine)
 
-router.route('/medicine').get(getMedicine).put(updateMedicine).delete(deleteMedicine)
+// router.route('/medicine').get(getMedicine).put(updateMedicine).delete(deleteMedicine)
 
 module.exports = router

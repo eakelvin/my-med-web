@@ -3,6 +3,7 @@ import { clearCredentials } from '../Slices/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../Slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { removeMed } from '../Slices/medSlice';
 
 const Dropdown = () => {
     const navigate = useNavigate()
@@ -19,6 +20,7 @@ const Dropdown = () => {
         try {
             await logoutApiCall().unwrap()
             dispatch(clearCredentials())
+            dispatch(removeMed())
             navigate('/')
         } catch (error) {
             console.log(error);

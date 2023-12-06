@@ -2,6 +2,8 @@ const Medicine = require('../models/medicine')
 
 const addMedicine = async (req, res) => {
     try {
+        // const { _id: userId } = req.user;
+        // const savedMedicine = await Medicine.create({ ...req.body, user: userId});
         const savedMedicine = await Medicine.create(req.body);
         res.status(201).json(savedMedicine);
     } catch (error) {
@@ -10,12 +12,17 @@ const addMedicine = async (req, res) => {
 }
 
 const getMedicines = async (req, res) => {
-    try {
-        const medicines = await Medicine.find();
-        res.status(200).json(medicines);
-      } catch (error) {
-        res.status(500).json({ error: error.message });
-      }
+  try {
+    console.log(req.user.id);
+    if (req.user.id !== req.params.id) {
+      const medicines = await Medicine.find({ user: req.params.id});
+      res.status(200).json(medicines);
+    } else {
+      res.status(403).json({ error: 'Access forbidden. You can only access your own medicines.' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
 const getMedicine = async(req, res) => {

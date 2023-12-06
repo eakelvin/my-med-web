@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {toast} from 'react-toastify'
 import { useAddMedicineMutation } from '../Slices/medicineSlice'
 import { setMed } from '../Slices/medSlice'
+import LoadingSpinner from '../Components/Spinner'
 
 const Add_medicine = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [addMedicine] = useAddMedicineMutation()
+  const [addMedicine, { isLoading }] = useAddMedicineMutation()
+  const { userInfo } = useSelector((state) => state.auth)
 
   // const [medicine, setMedicine] = useState({
   //   name: "",
@@ -21,22 +23,12 @@ const Add_medicine = () => {
   //   when: ""
   // })
 
-  function handleChange(event) {
-    const { name, value, type, checked } = event.target
-    setMedicine(prevState => {
-      return { ...prevState, [name] : value
-      }
-    })
-  }
-
   // function handleChange(event) {
-  //   const { name, value, type } = event.target;
-  //   const processedValue = type === 'date' ? new Date(value).toISOString().split('T')[0] : value;
-  
-  //   setMedicine((prevState) => ({
-  //     ...prevState,
-  //     [name]: processedValue,
-  //   }));
+  //   const { name, value, type, checked } = event.target
+  //   setMedicine(prevState => {
+  //     return { ...prevState, [name] : value
+  //     }
+  //   })
   // }
 
   const [name, setName] = useState('')
@@ -50,9 +42,10 @@ const Add_medicine = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const user = userInfo._id
     // console.log(medicine);
     try {
-      const res = await addMedicine({ name, type, dosage, duration, interval, start, extraTime, when }).unwrap()
+      const res = await addMedicine({ user, name, type, dosage, duration, interval, start, extraTime, when }).unwrap()
       if (res) {
         dispatch(setMed({...res}))
         navigate('/home')
@@ -60,18 +53,17 @@ const Add_medicine = () => {
       }
     } catch (error) {
       console.error('Error:', error);
-      toast.error(error?.data?.message || error?.error || 'An error occurred');
-      // toast.error(error.data.message || error.error)
+      toast.error(error.message || error?.error || 'An error occurred');
     }
   }
 
   return (
        <div className="p-5">
-        <form onSubmit={handleSubmit} action="">
             <div>                
                 <p className="font-bold text-xl">Add Medicine</p>
                 <p className='text-sm'>Alarm notification is automatic when Scheduling reminders</p>
             </div>
+          <form onSubmit={handleSubmit} action="">
             <div className="mt-3">
               <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
               <input
@@ -272,12 +264,15 @@ const Add_medicine = () => {
 
             </div>
 
+            { isLoading && <LoadingSpinner />}
+
             <div className="mt-5">
                 <button className="text-white text-[15px] text-center rounded-lg w-full focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                   SCHEDULE
                 </button>
             </div>
-            </form>
+
+        </form>
         </div>
   )
 }
