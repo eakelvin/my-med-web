@@ -7,7 +7,7 @@ const medicineSchema = mongoose.Schema({
     },
     type: {
         type: String,
-        required: true,
+        // required: true,
         enum: ['Pill', 'Syrup']
     },
     dosage: {
@@ -24,12 +24,12 @@ const medicineSchema = mongoose.Schema({
     },
     start: {
         type: Date,
-        required: true
+        // required: true
     },
     extraTime: { type: String},
     when: {
         type: String,
-        required: true,
+        // required: true,
         enum: ['Take before meal', 'Take in between meal', 'Take after meal']
     }
 }, {timestamps: true})

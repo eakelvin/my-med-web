@@ -9,6 +9,8 @@ import { FaPills } from "react-icons/fa";
 
 const Home = () => {
     const { userInfo } = useSelector((state) => state.auth)
+    const { medicines } = useSelector((state) => state.medicine)
+    console.log('medicines', medicines);
     // console.log('userInfo:', userInfo);
 
     return (
@@ -62,21 +64,25 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="p-5 bg-green-500 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 rounded-lg">
+            <div>
+                {medicines.map((medicine) => (
+                <div key={medicine._id} className="p-5 bg-green-500 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 rounded-lg">
                 <div className="flex">
                     <div className="border rounded-full w-16 p-3 bg-white">
                         <FaPills size={40} />
                     </div>
                     <div className="ml-3 justify-center">
-                        <p className="text-sm text-white">No of Pills</p>
-                        <p className="text-lg font-bold text-white">Type of Pill</p>
-                        <p className="text-sm text-white text-mute">Time to take</p>
+                        <p className="text-sm text-white">{medicine.dosage}</p>
+                        <p className="text-lg font-bold text-white">{medicine.name}</p>
+                        <p className="text-sm text-white text-mute">{medicine.when}</p>
                     </div>
                 </div>
                 <div className="p-5 text-white">
-                    <p>Date</p>
-                    <p className="">Time</p>
+                    <p>{new Date(medicine.start).toLocaleDateString()}</p>
+                    <p className="">{new Date(medicine.createdAt).toLocaleTimeString()}</p>
                 </div>
+                </div>
+                ))}
             </div>
 
             <div className="mt-10 flex justify-center">
