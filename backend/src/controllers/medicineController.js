@@ -13,8 +13,8 @@ const addMedicine = async (req, res) => {
 
 const getMedicines = async (req, res) => {
   try {
-    console.log(req.user.id);
-    if (req.user.id !== req.params.id) {
+    // console.log(req.user.id);
+    if (req.user.id === req.params.id) {
       const medicines = await Medicine.find({ user: req.params.id});
       res.status(200).json(medicines);
     } else {

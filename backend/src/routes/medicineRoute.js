@@ -11,7 +11,7 @@ const {
 const { protect } = require('../middleware/authMiddleware')
 
 router.post('/medicine', protect, addMedicine)
-router.get('/medicine', protect, getMedicines)
+router.get('/medicine/:id', protect, getMedicines)
 router.get('/medicine/:id', protect, getMedicine)
 router.put('/medicine/:id', protect, updateMedicine)
 router.delete('/medicine/:id', protect, deleteMedicine)
