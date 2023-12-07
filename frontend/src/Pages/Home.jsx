@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLogoutMutation } from '../Slices/userSlice'
@@ -6,12 +6,35 @@ import { clearCredentials } from '../Slices/authSlice'
 import { IoNotificationsCircleOutline } from "react-icons/io5";
 import Dropdown from '../Components/Dropdown'
 import { FaPills } from "react-icons/fa";
+import { useGetMedicinesMutation } from '../Slices/medicineSlice'
+import { toast } from 'react-toastify'
+import LoadingSpinner from '../Components/Spinner'
 
 const Home = () => {
     const { userInfo } = useSelector((state) => state.auth)
-    const { medicines } = useSelector((state) => state.medicine)
-    // console.log('medicines', medicines);
-    // console.log('userInfo:', userInfo);
+    const [scheduled, setScheduled] = useState([]);
+    const [getMedicines, { isLoading }] = useGetMedicinesMutation()
+
+    useEffect(() => {
+        const fetchMedicines = async () => {
+          try {
+            const res = await getMedicines(userInfo._id).unwrap();
+            const sortedMedicines = [...res].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setScheduled(sortedMedicines);
+          } catch (error) {
+            console.error('Error fetching medicines:', error);
+            if (error.status === 403) {
+              toast.error('You do not have permission to access your medicines.');
+            } else {
+              toast.error('Error fetching medicines. Please try again later.');
+            }
+          }
+        };
+    
+        fetchMedicines();
+      }, [getMedicines, userInfo._id]);
+
+      const mostCurrentMedicine = scheduled.length > 0 ? scheduled[0] : null;
 
     return (
         <div className='p-5'>
@@ -60,31 +83,35 @@ const Home = () => {
                 <Link to='/schedule' className='text-green-500 underline font-bold'>View All</Link>
             </div>
 
+            { isLoading && <LoadingSpinner />}
+
             <div  className="p-5 bg-green-500 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 rounded-lg">
-                {/* {medicines.map((medicine) => (
-                 <div key={medicine._id}>  */}
-                <div className="flex">
-                    <div className="border rounded-full w-16 p-3 bg-white">
-                        <FaPills size={40} />
-                    </div>
-                    <div className="ml-3 justify-center">
-                        <p className="text-sm text-white">{medicines.dosage}</p>
-                        <p className="text-lg font-bold text-white">{medicines.name}</p>
-                        <p className="text-sm text-white text-mute">{medicines.when}</p>
+                {mostCurrentMedicine && (
+                 <div> 
+                    <div className="flex">
+                        {/* <div className="border rounded-full w-16 p-3 bg-white"> */}
+                            <FaPills size={40} />
+                        {/* </div> */}
+                        <div className="ml-3 justify-center">
+                            <p className="text-sm text-white">{mostCurrentMedicine.dosage}</p>
+                            <p className="text-lg font-bold text-white">
+                                <span className='text-sm'>Pill: </span>
+                                {mostCurrentMedicine.name}
+                            </p>
+                            <p className="text-sm text-white text-mute">
+                                {mostCurrentMedicine.when}
+                            </p>
+                            <p>Start: {new Date(mostCurrentMedicine.start).toLocaleDateString()}</p>
+                        </div>
                     </div>
                 </div>
-                <div className="p-5 text-white">
-                    <p>{new Date(medicines.start).toLocaleDateString()}</p>
-                    {/* <p className="">{new Date(medicines.createdAt).toLocaleTimeString()}</p> */}
-                </div>
-                 {/* </div>
-                 ))} */}
+                )} 
             </div>
 
             <div className="p-16">
-                {/* <Link to='/reminder'> */}
-                    <img className='mx-auto hover:bg-slate-800' src="./addpill.png" alt="" />
-                {/* </Link> */}
+                <Link to='/reminder'>
+                    <img className='mx-auto' src="./addpill.png" alt="" />
+                </Link>
                 <p className='text-center'>Enter medication details and set reminder</p>
             </div>
         
