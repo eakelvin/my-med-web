@@ -86,12 +86,11 @@ const Home = () => {
             { isLoading && <LoadingSpinner />}
 
             <div  className="p-5 bg-green-500 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 rounded-lg">
-                {mostCurrentMedicine && (
+                {mostCurrentMedicine ? (
                  <div> 
                     <div className="flex">
                         {/* <div className="border rounded-full w-16 p-3 bg-white"> */}
-                            <FaPills size={40} />
-                        {/* </div> */}
+                        <FaPills size={40} />
                         <div className="ml-3 justify-center">
                             <p className="text-sm text-white">{mostCurrentMedicine.dosage}</p>
                             <p className="text-lg font-bold text-white">
@@ -105,6 +104,8 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
+                ) : (
+                    <p>No Medicine Available</p>
                 )} 
             </div>
 

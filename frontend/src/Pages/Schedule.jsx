@@ -62,32 +62,20 @@ const Schedule = () => {
                     <p className='font-extrabold text-3xl'>{schedule.name}</p>
                     <p className="mb-2 font-normal text-gray-500 dark:text-gray-400">{schedule.when}</p>
                     <p className="">{new Date(schedule.start).toLocaleDateString()}</p>
-                    <button onClick={() => handleDelete(schedule._id)} className="inline-flex items-center border rounded-lg text-red-600 hover:underline">
+
+                    <div className="mt-3 inline-flex rounded-md shadow-sm" role="group">
+                    <button type="button" className="px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-s-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
+                        Edit
+                    </button>
+                    <button 
+                        onClick={() => handleDelete(schedule._id)} 
+                        type="button" 
+                        className="px-4 py-2 text-sm font-medium bg-red-500 text-gray-900 bg-transparent border border-gray-900 rounded-e-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
                         Delete
                     </button>
+                    </div>
                 </div>
         )}
-
-
-            {/* <div className="mt-3 px-2 py-3 border border-green-400 flex justify-between">
-                <div className="flex">
-                    <div className="border rounded-full p-5">
-                      <GiMedicinePills size={25} />
-                    </div>
-                    <div className="ml-3 justify-center">
-                        <div>
-                            <p className="text-sm">No of Pills</p>
-                            <p className="text-md font-bold">Type of Pill</p>
-                            <p className="text-sm">Time to take</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="mt-2">
-                    <p className="font-bold text-lg">Date</p>
-                    <p>Time</p>
-                </div>
-            </div> */}
-
     </div>
   )
 }
