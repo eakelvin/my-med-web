@@ -12,25 +12,6 @@ const Add_medicine = () => {
   const [addMedicine, { isLoading }] = useAddMedicineMutation()
   const { userInfo } = useSelector((state) => state.auth)
 
-  // const [medicine, setMedicine] = useState({
-  //   name: "",
-  //   type: "",
-  //   dosage: "",
-  //   duration: "",
-  //   interval: "",
-  //   start: "",
-  //   extraTime: "",
-  //   when: ""
-  // })
-
-  // function handleChange(event) {
-  //   const { name, value, type, checked } = event.target
-  //   setMedicine(prevState => {
-  //     return { ...prevState, [name] : value
-  //     }
-  //   })
-  // }
-
   const [name, setName] = useState('')
   const [type, setType] = useState('')
   const [dosage, setDosage] = useState('')
@@ -111,6 +92,19 @@ const Add_medicine = () => {
                   Syrup
                 </label>
               </div>
+              <div className="flex items-center">
+                <input
+                  id="default-radio-6"
+                  type="radio"
+                  onChange={(e) => setType(e.target.value)}
+                  name="type"
+                  value='Ointment'
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label htmlFor="default-radio-6" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Ointment
+                </label>
+              </div>
             </div>
 
             <div className="mt-4">
@@ -135,6 +129,7 @@ const Add_medicine = () => {
                       <option value="5ml">5ml</option>
                       <option value="10ml">10ml</option>
                       <option value="15ml">15ml</option>
+                      <option value="2x">2X</option>
                   </select>
                 </div>
 

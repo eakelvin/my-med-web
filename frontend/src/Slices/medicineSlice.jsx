@@ -30,7 +30,7 @@ export const medicinesApiSlice = apiSlice.injectEndpoints({
             })
         }),
         deleteMedicine: builder.mutation({
-            query: ({ id }) => ({
+            query: (id) => ({
                 url: `${MEDICINE_URL}/medicine/${id}`,
                 method: 'DELETE',
             })

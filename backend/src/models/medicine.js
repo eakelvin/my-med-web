@@ -13,7 +13,7 @@ const medicineSchema = mongoose.Schema({
     type: {
         type: String,
         required: true,
-        enum: ['Pill', 'Syrup']
+        enum: ['Pill', 'Syrup', 'Ointment']
     },
     dosage: {
         type: String,

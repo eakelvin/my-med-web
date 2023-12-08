@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { GiMedicinePills } from "react-icons/gi";
-import { useGetMedicinesMutation } from '../Slices/medicineSlice';
+import { useDeleteMedicineMutation, useGetMedicinesMutation } from '../Slices/medicineSlice';
 import { useSelector } from 'react-redux';
 import LoadingSpinner from '../Components/Spinner';
 import { toast } from 'react-toastify'
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 const Schedule = () => {
     const [scheduled, setScheduled] = useState([])
     const [getMedicines , { isLoading }] = useGetMedicinesMutation()
+    const [deleteMedicine] = useDeleteMedicineMutation()
     const { userInfo } = useSelector((state) => state.auth)
 
     useEffect(() => {
@@ -29,6 +30,20 @@ const Schedule = () => {
         fetchMedicines()
     }, [getMedicines, userInfo._id])
 
+    const handleDelete = async (id) => {
+        try {
+          await deleteMedicine(id).unwrap();
+          setScheduled((prev) =>
+            prev.filter((medicine) => medicine._id !== id)
+          );
+          toast.success('Medicine deleted successfully');
+        } catch (error) {
+          console.error('Error deleting medicine:', error);
+          toast.error('Error deleting medicine. Please try again later.');
+        }
+    };
+      
+
   return (
       <div className="p-5">
         <div className="border-b-2 border-slate-200">
@@ -47,9 +62,9 @@ const Schedule = () => {
                     <p className='font-extrabold text-3xl'>{schedule.name}</p>
                     <p className="mb-2 font-normal text-gray-500 dark:text-gray-400">{schedule.when}</p>
                     <p className="">{new Date(schedule.start).toLocaleDateString()}</p>
-                    <a href="#" className="inline-flex items-center text-blue-600 hover:underline">
-                        Edit Schedule
-                    </a>
+                    <button onClick={() => handleDelete(schedule._id)} className="inline-flex items-center border rounded-lg text-red-600 hover:underline">
+                        Delete
+                    </button>
                 </div>
         )}
 

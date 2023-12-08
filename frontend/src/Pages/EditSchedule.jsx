@@ -2,7 +2,9 @@ import React from 'react'
 
 const EditSchedule = () => {
   return (
-    <div>EditSchedule</div>
+    <div>
+        EditSchedule
+    </div>
   )
 }
 
