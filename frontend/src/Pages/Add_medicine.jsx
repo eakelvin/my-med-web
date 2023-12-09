@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {toast} from 'react-toastify'
 import { useAddMedicineMutation } from '../Slices/medicineSlice'
-import { setMed } from '../Slices/medSlice'
+// import { setMed } from '../Slices/medSlice'
 import LoadingSpinner from '../Components/Spinner'
 
 const Add_medicine = () => {
@@ -28,7 +28,7 @@ const Add_medicine = () => {
     try {
       const res = await addMedicine({ user, name, type, dosage, duration, interval, start, extraTime, when }).unwrap()
       if (res) {
-        dispatch(setMed({...res}))
+        // dispatch(setMed({...res}))
         navigate('/home')
         toast.success('Medication Added Successfully')
       }

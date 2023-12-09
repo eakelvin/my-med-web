@@ -17,6 +17,7 @@ import Report from './Pages/Report';
 import Profile from './Pages/Profile';
 import EditProfile from './Pages/EditProfile';
 import MedicalDetails from './Pages/MedicalDetails';
+import EditSchedule from './Pages/EditSchedule';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route path='/profile' element={<Profile/>} />
           <Route path='/edit-profile' element={<EditProfile />} />
           <Route path='/schedule' element={<Schedule />} />
+          <Route path='/update-schedule/:scheduleId' element={<EditSchedule />} />
           <Route path='/reminder' element={<Reminder />} />
           <Route path='/add-medicine' element={<Add_medicine />} />
           <Route path='/medical-details' element={<MedicalDetails />} />

@@ -12,12 +12,12 @@ export const medicinesApiSlice = apiSlice.injectEndpoints({
         }),
         getMedicines: builder.mutation({
             query: (id) => ({
-                url: `${MEDICINE_URL}/medicine/${id}`,
+                url: `${MEDICINE_URL}/medicines/${id}`,
                 method: 'GET',
             })
         }),     
         getMedicine: builder.mutation({
-            query: ({ id }) => ({
+            query: (id) => ({
                 url: `${MEDICINE_URL}/medicine/${id}`,
                 method: 'GET',
             })
