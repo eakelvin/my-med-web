@@ -39,20 +39,25 @@ const getMedicine = async(req, res) => {
     }
 }
 
-const updateMedicine = async (req, res) => {
-    try {
-        const updatedMedicine = await Medicine.findByIdAndUpdate(
-          req.params.id,
-          req.body,
-          { new: true } // Return the updated document
-        );
-        if (!updatedMedicine) {
-          return res.status(404).json({ error: 'Medicine not found' });
-        }
-        res.status(200).json(updatedMedicine);
-      } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+const updateMedicine = async(req, res) => {
+  const medicine = await Medicine.findById(req.params.id)
+  if (!medicine) {
+    return res.status(404).json({ error: 'Medicine not found'})
+  }
+  if (req.user.id !== medicine.user.toString()) {
+    return res.status(401).json({ error: 'You can only update your own meds'})
+  }
+
+  try {
+    const updatedMed = await Medicine.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    )
+    res.status(200).json(updatedMed)
+  } catch (error) {
+    res.status(500).json({ error: error.message})
+  }
 }
 
 const deleteMedicine = async (req, res) => {
