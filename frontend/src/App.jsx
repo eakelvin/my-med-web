@@ -16,8 +16,8 @@ import Add_medicine from './Pages/Add_medicine'
 import Report from './Pages/Report';
 import Profile from './Pages/Profile';
 import EditProfile from './Pages/EditProfile';
-import MedicalDetails from './Pages/MedicalDetails';
 import EditSchedule from './Pages/EditSchedule';
+import UpdateMedicals from './Pages/UpdateMedicals';
 
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
           <Route path='/update-schedule/:scheduleId' element={<EditSchedule />} />
           <Route path='/reminder' element={<Reminder />} />
           <Route path='/add-medicine' element={<Add_medicine />} />
-          <Route path='/medical-details' element={<MedicalDetails />} />
+          <Route path='/update-medicals' element={<UpdateMedicals />} />
         </Route>
       </Routes>
     </Router>

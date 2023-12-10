@@ -8,6 +8,7 @@ const connectDatabase = require('./src/config/database')
 const { notFound, errorHandler } = require('./src/middleware/errorMiddleware')
 const userRoute = require('./src/routes/userRoute')
 const medicineRoute = require('./src/routes/medicineRoute')
+const recordRoute = require('./src/routes/recordRoute')
 
 connectDatabase()
 server.use(express.json())
@@ -16,9 +17,10 @@ server.use(cookieParser())
 
 server.use('/api/users', userRoute)
 server.use('/api/medicines', medicineRoute)
+server.use('/api/records', recordRoute)
 
 
-server.get('/', (req, res) => res.send('EA Server'))
+server.get('/', (req, res) => res.send('My Med Server'))
 
 server.use(notFound)
 server.use(errorHandler)

@@ -107,10 +107,10 @@ const Profile = () => {
                 <p className="border border-slate-200 border-2-4 border-t-2 text-mute p-2">Conditions & Allergies</p>
                 <div className="p-2">
                     <p className="font-bold text-green-500 mt-2">Medical Conditions</p>
-                    <p className="mt-1">High blood Pressure</p>
+                    <p className="">High blood Pressure</p>
 
                     <p className="font-bold text-green-500 mt-5">Allergies & Reactions</p>
-                    <p className="mt-1 mb-3">Penicillin - Severe skin rash</p>
+                    <p className="mb-3">Penicillin - Severe skin rash</p>
                 </div>
             </div>
 
@@ -120,7 +120,7 @@ const Profile = () => {
                     tracks of your health conditions.
                 </p>
                 <div className="mt-4 mb-3">
-                    <Link to='/medical-details'className="bg-green-500 px-10 py-3 rounded-lg">
+                    <Link to='/update-medicals'className="bg-green-500 px-10 py-3 rounded-lg">
                         Update
                     </Link>
                 </div>
