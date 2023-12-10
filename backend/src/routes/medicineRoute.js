@@ -16,6 +16,5 @@ router.get('/medicine/:id', protect, getMedicine)
 router.put('/medicine/:id', protect, updateMedicine)
 router.delete('/medicine/:id', protect, deleteMedicine)
 
-// router.route('/medicine').get(getMedicine).put(updateMedicine).delete(deleteMedicine)
 
 module.exports = router

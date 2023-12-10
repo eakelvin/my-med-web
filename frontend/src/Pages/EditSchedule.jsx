@@ -54,10 +54,16 @@ const EditSchedule = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const user = userInfo._id
+    const id = scheduleId
+    console.log(user);
+    console.log(id);
 
     try {
-      const res = await updateMedicine ({ id: scheduleId, 
-        user, name, type, dosage, duration, intervalValue, start, extraTime, when 
+      const res = await updateMedicine({ 
+        id,
+        data: {
+          user, name, type, dosage, duration, intervalValue, start, extraTime, when 
+        } 
       }).unwrap()
       console.log(res);
       if (res) {
