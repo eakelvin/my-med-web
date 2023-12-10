@@ -8,8 +8,10 @@ const {
 } = require('../controllers/recordController')
 const { protect } = require('../middleware/authMiddleware')
 
-router.post('/record', protect, createRecord)
-router.get('/record', protect, getRecord)
-router.put('/record', protect, updateRecord)
+router.post('/create', protect, createRecord)
+router.get('/get/:id', protect, getRecord)
+router.put('/update', protect, updateRecord)
+// router.put('/update/:id', protect, updateRecord)
+// router.route('/record').get(protect, getRecord).put(protect, updateRecord)
 
 module.exports = router

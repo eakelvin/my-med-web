@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import LoadingSpinner from '../Components/Spinner'
+import { useGetRecordsMutation } from '../Slices/recordSlice'
 
 
 const UpdateMedicals = () => {
   const { userInfo } = useSelector((state) => state.auth)
+  const [getRecords] = useGetRecordsMutation()
 
   const [bloodType, setBloodType] = useState('')
   const [disease, setDisease] = useState('')
@@ -15,27 +17,26 @@ const UpdateMedicals = () => {
   const [conditions, setConditions] = useState('')
   const [allergies, setAllergies] = useState('')
 
-  // useEffect(() => {
-  //   const fetchMedicalDetails = async () => {
-  //     try {
-  //     // console.log(scheduleId);
-  //     const res = await getMedicine().unwrap()
-  //     setName(res.name)
-  //     setType(res.type)
-  //     setDosage(res.dosage)
-  //     setDuration(res.duration)
-  //     setIntervalValue(res.intervalValue)
-  //     setStart(formattedDate)
-  //     setExtraTime(res.extraTime)
-  //     setWhen(res.when)
-  //     // console.log(res);
-  //     } catch (error) {
-  //       console.error('Error fetching medicine:', error);
-  //     }
-  //   }
+  useEffect(() => {
+    const fetchMedicalDetails = async () => {
+      try {
+      const res = await getRecords(userInfo._id).unwrap()
+      setBloodType(res.bloodType)
+      setDisease(res.disease)
+      setEpilepsy(res.epilepsy)
+      setOrgan(res.organ)
+      setHeight(res.height)
+      setWeight(res.weight)
+      setConditions(res.conditions)
+      setAllergies(res.allergies)
+      // console.log(res);
+      } catch (error) {
+        console.error('Error fetching medicine:', error);
+      }
+    }
 
-  //   fetchMedicalDetails()
-  // }, [])
+    fetchMedicalDetails()
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
