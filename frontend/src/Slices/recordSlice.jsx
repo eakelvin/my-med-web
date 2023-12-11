@@ -1,7 +1,7 @@
 import { apiSlice } from "./apiSlice";
 const RECORDS_URL = '/api/records'
 
-export const recordSlice = apiSlice.injectEndpoints({
+export const recordsApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         createRecords: builder.mutation({
             query: (data) => ({
@@ -10,9 +10,15 @@ export const recordSlice = apiSlice.injectEndpoints({
                 body: data
             })
         }),
-        getRecords: builder.mutation({
+        getRecord: builder.mutation({
             query: (id) => ({
                 url: `${RECORDS_URL}/get/${id}`,
+                method: 'GET',
+            })
+        }),
+        getRecords: builder.mutation({
+            query: (id) => ({
+                url: `${RECORDS_URL}/records/${id}`,
                 method: 'GET',
             })
         }),
@@ -28,6 +34,7 @@ export const recordSlice = apiSlice.injectEndpoints({
 
 export const { 
         useCreateRecordsMutation, 
-        useGetRecordsMutation, 
-        useUpdateRecordsMutation
-    } = recordSlice
+        useGetRecordMutation, 
+        useUpdateRecordsMutation,
+        useGetRecordsMutation
+    } = recordsApiSlice

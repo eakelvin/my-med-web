@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdBloodtype } from "react-icons/md";
 import { MdSick } from "react-icons/md";
 import { FaDisease } from "react-icons/fa";
@@ -8,9 +8,41 @@ import { GiBodyHeight } from "react-icons/gi";
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Dropdown from '../Components/Dropdown';
+import { useGetRecordMutation, useGetRecordsMutation } from '../Slices/recordSlice';
+import { toast } from 'react-toastify'
 
 const Profile = () => {
   const { userInfo } = useSelector((state) => state.auth)
+  const [record, setRecord] = useState([])
+  const [getRecord] = useGetRecordMutation()
+  const [getRecords, { isLoading }] = useGetRecordsMutation()
+//   const firstRecord = record[0]
+
+  useEffect(() => {
+    const fetchRecords = async () => {
+      try {
+        const res = await getRecords(userInfo._id).unwrap();
+        setRecord(res);
+      } catch (error) {
+        console.log(error);
+
+        if (error.status === 403) {
+          toast.error('You do not have permission to access your records.');
+        } else {
+          toast.error('Error fetching records. Please try again later.');
+        }
+      }
+    };
+
+    fetchRecords();
+  }, [getRecords, userInfo._id]);
+
+  
+  const firstRecord = record[0];
+    // Object.keys(firstRecord).forEach((key) => {
+    // const value = firstRecord[key];
+    // console.log(`${key}: ${value}`);
+    // });
   
   return (
     <div>
@@ -44,6 +76,8 @@ const Profile = () => {
                 <div className="border border-y-2 border-slate-300">
                     <p className="text-mute p-2">Medical Details</p>
                 </div>
+
+                {firstRecord ? (
                 <div className="p-5">
                     <div className="flex justify-between">
                         <div className="flex">
@@ -51,7 +85,7 @@ const Profile = () => {
                             <p className="text-md font-bold ml-2">Blood Type</p>
                         </div>
                         <div>
-                            <p className="text-mute">O+</p>
+                            <p className="text-mute">{firstRecord.bloodType}</p>
                         </div>
                     </div>
                     <div className="flex justify-between my-3">
@@ -60,7 +94,7 @@ const Profile = () => {
                             <p className="text-md font-bold ml-2">Chronic Disease</p>
                         </div>
                         <div>
-                            <p className="text-mute">Diabetes</p>
+                            <p className="text-mute">{firstRecord.disease}</p>
                         </div>
                     </div>
                     <div className="flex justify-between">
@@ -69,7 +103,7 @@ const Profile = () => {
                             <p className="text-md font-bold ml-2">Epilepsy</p>
                         </div>
                         <div>
-                            <p className="text-mute">NO</p>
+                            <p className="text-mute">{firstRecord.epilepsy}</p>
                         </div>
                     </div>
                     <div className="flex justify-between my-3">
@@ -78,7 +112,7 @@ const Profile = () => {
                             <p className="text-md font-bold ml-2">Organ Donor</p>
                         </div>
                         <div>
-                            <p className="text-mute">YES</p>
+                            <p className="text-mute">{firstRecord.organ}</p>
                         </div>
                     </div>
                     <div className="flex justify-between">
@@ -87,7 +121,7 @@ const Profile = () => {
                             <p className="text-md font-bold ml-2">Weight</p>
                         </div>
                         <div>
-                            <p className="text-mute">135 lb</p>
+                            <p className="text-mute">{firstRecord.weight}</p>
                         </div>
                     </div>
                     <div className="flex justify-between my-3">
@@ -96,23 +130,35 @@ const Profile = () => {
                             <p className="text-md font-bold ml-2">Height</p>
                         </div>
                         <div>
-                            <p className="text-mute">5ft, 9in</p>
+                            <p className="text-mute">{firstRecord.height}</p>
                         </div>
                     </div>
 
+                    <div className="mt-2 border-b-2 border-slate-300">
+                    <p className="border border-slate-200 border-2-4 border-t-2 text-mute p-2">Conditions & Allergies</p>
+                    <div className="p-2">
+                        <p className="font-bold text-green-500 mt-2">Medical Conditions</p>
+                        <p className="">{firstRecord.conditions}</p>
+
+                        <p className="font-bold text-green-500 mt-5">Allergies & Reactions</p>
+                        <p className="mb-3">{firstRecord.allergies}</p>
+                    </div>
                 </div>
+
+                </div>
+                ) : (
+                    <div className='my-5 bg-green-500 p-5 text-xl'>
+                        <p className=''>No Medical Details Available</p>
+                        <Link to='/create-record'>
+                            <p className='font-extrabold underline'>Click here to enter your medical details</p>
+                        </Link>
+                    </div>
+                )}
+                
             </div>
 
-            <div className="mt-2 border-b-2 border-slate-300">
-                <p className="border border-slate-200 border-2-4 border-t-2 text-mute p-2">Conditions & Allergies</p>
-                <div className="p-2">
-                    <p className="font-bold text-green-500 mt-2">Medical Conditions</p>
-                    <p className="">High blood Pressure</p>
-
-                    <p className="font-bold text-green-500 mt-5">Allergies & Reactions</p>
-                    <p className="mb-3">Penicillin - Severe skin rash</p>
-                </div>
-            </div>
+                
+            
 
             <div className="p-5 text-center items-center">
                 <p className="text-mute">
@@ -120,7 +166,7 @@ const Profile = () => {
                     tracks of your health conditions.
                 </p>
                 <div className="mt-4 mb-3">
-                    <Link to='/update-medicals'className="bg-green-500 px-10 py-3 rounded-lg">
+                    <Link to='/update-record' className="bg-green-500 px-10 py-3 rounded-lg">
                         Update
                     </Link>
                 </div>

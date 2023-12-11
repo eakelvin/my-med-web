@@ -19,7 +19,6 @@ const Schedule = () => {
                 setScheduled(res)
             } catch (error) {
                 console.error('Error fetching medicines:', error);
-                // toast.error(error)
                 if (error.status === 403) {
                     toast.error('You do not have permission to access your medicines.');
                 } else {

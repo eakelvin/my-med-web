@@ -18,6 +18,7 @@ import Profile from './Pages/Profile';
 import EditProfile from './Pages/EditProfile';
 import EditSchedule from './Pages/EditSchedule';
 import UpdateMedicals from './Pages/UpdateMedicals';
+import CreateRecord from './Pages/CreateRecord';
 
 
 function App() {
@@ -40,7 +41,8 @@ function App() {
           <Route path='/update-schedule/:scheduleId' element={<EditSchedule />} />
           <Route path='/reminder' element={<Reminder />} />
           <Route path='/add-medicine' element={<Add_medicine />} />
-          <Route path='/update-medicals' element={<UpdateMedicals />} />
+          <Route path='/update-record' element={<UpdateMedicals />} />
+          <Route path='/create-record' element={<CreateRecord />} />
         </Route>
       </Routes>
     </Router>

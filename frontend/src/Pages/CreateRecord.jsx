@@ -1,76 +1,43 @@
 import React, { useEffect, useState } from 'react'
+import { useCreateRecordsMutation } from '../Slices/recordSlice'
 import { useSelector } from 'react-redux'
-import LoadingSpinner from '../Components/Spinner'
-import { useGetRecordMutation } from '../Slices/recordSlice'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { useNavigate, useParams } from 'react-router-dom'
+import LoadingSpinner from '../Components/Spinner'
 
-const UpdateMedicals = () => {
-  const navigate = useNavigate()
-  const { recordId } = useParams()
-  const { userInfo } = useSelector((state) => state.auth)
-  const [getRecords] = useGetRecordMutation()
+const CreateRecord = () => {
+    const navigate = useNavigate()
+    const { userInfo } = useSelector((state) => state.auth)
+    const [addRecord, {isLoading}] = useCreateRecordsMutation()
+  
+    const [bloodType, setBloodType] = useState('')
+    const [disease, setDisease] = useState('')
+    const [epilepsy, setEpilepsy] = useState('')
+    const [organ, setOrgan] = useState('')
+    const [height, setHeight] = useState('')
+    const [weight, setWeight] = useState('')
+    const [conditions, setConditions] = useState('')
+    const [allergies, setAllergies] = useState('')
 
-  const [bloodType, setBloodType] = useState('')
-  const [disease, setDisease] = useState('')
-  const [epilepsy, setEpilepsy] = useState('')
-  const [organ, setOrgan] = useState('')
-  const [height, setHeight] = useState('')
-  const [weight, setWeight] = useState('')
-  const [conditions, setConditions] = useState('')
-  const [allergies, setAllergies] = useState('')
-
-  useEffect(() => {
-    const fetchMedicalDetails = async () => {
-      try {
-        const res = await getRecords(recordId).unwrap()
-        setBloodType(res.bloodType)
-        setDisease(res.disease)
-        setEpilepsy(res.epilepsy)
-        setOrgan(res.organ)
-        setHeight(res.height)
-        setWeight(res.weight)
-        setConditions(res.conditions)
-        setAllergies(res.allergies)
-        console.log(res);
-      } catch (error) {
-        console.error('Error fetching medicine:', error);
-      }
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const user = userInfo._id
+        try {
+            const res = await addRecord({ 
+                user, bloodType, disease, epilepsy, organ, height, weight, conditions, allergies 
+            }).unwrap()
+            if (res) {
+                navigate('/profile')
+                toast.success('Record Added Successfully')
+            }
+        } catch (error) {
+            toast.error(error.message || error?.error || 'An error occurred');
+        }
     }
 
-    fetchMedicalDetails()
-  }, [])
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log(bloodType, disease, epilepsy, organ, height, weight, conditions, allergies);
-    console.log('Success!!');
-    // const user = userInfo._id
-    // const id = scheduleId
-    // console.log(user);
-    // console.log(id);
-
-    // try {
-    //   const res = await updateMedicine({ 
-    //     id,
-    //     data: {
-    //       user, name, type, dosage, duration, intervalValue, start, extraTime, when 
-    //     } 
-    //   }).unwrap()
-    //   console.log(res);
-    //   if (res) {
-    //     navigate('/schedule')
-    //     toast.success('Medication Updated Successfully')
-    //   }
-    // } catch (error) {
-    //   console.error('Error:', error);
-    //   toast.error(error.message || error?.error || 'An error occurred');
-    // }
-  }
-  
-
   return (
-    <div className='p-5'>
+    <div>
+        <div className='p-5'>
       
       <div className="flex">
         <img
@@ -84,7 +51,7 @@ const UpdateMedicals = () => {
       </div>
 
       <div className="border-b-2 mt-2"></div>
-      <p className="mt-2 font-semibold text-md">Medical Details</p>
+      <p className="mt-2 font-semibold text-md">Add Medical Details</p>
 
       <form onSubmit={handleSubmit} action="">
         <div className='mt-3'>
@@ -318,18 +285,19 @@ const UpdateMedicals = () => {
           />
         </div>
 
-        {/* { isLoading && <LoadingSpinner />} */}
+        { isLoading && <LoadingSpinner />}
 
         <div className="mt-5">
             <button className="text-white text-[15px] text-center rounded-lg w-full focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-               SAVE & UPDATE 
+               CREATE RECORD 
             </button>
         </div>
 
       </form>
 
     </div>
+    </div>
   )
 }
 
-export default UpdateMedicals
+export default CreateRecord

@@ -1,17 +1,14 @@
 const asyncHandler = require('express-async-handler')
 const Record = require('../models/record')
 
-const createRecord = asyncHandler( async(req, res) => {
+const createRecord = async(req, res) => {
     try {
-        // const record = await Record.create(req.body)
-         const { _id: userId } = req.user;
-        const record = await Record.create({ ...req.body, user: userId});
-        
+        const record = await Record.create(req.body)
         res.status(201).json(record)
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
-})
+}
 
 const updateRecord = asyncHandler(async (req, res) => {
     try {
@@ -37,7 +34,7 @@ const updateRecord = asyncHandler(async (req, res) => {
 });
 
 
-const getRecord = asyncHandler( async(req, res) => {
+const getRecord = async(req, res) => {
     try {
         const record = await Record.findById(req.params.id)
         if (!record) {
@@ -47,6 +44,19 @@ const getRecord = asyncHandler( async(req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'error.message'})
     }
-})
+}
 
-module.exports = { createRecord, updateRecord, getRecord }
+const getRecords = async(req, res) => {
+    try {
+        if (req.user.id === req.params.id) {
+            const records = await Record.find({ user: req.params.id})
+            res.status(200).json(records)
+        } else {
+            res.status(403).json({ error: 'Access forbidden. You can only access your own medicines.' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+module.exports = { createRecord, updateRecord, getRecord, getRecords }

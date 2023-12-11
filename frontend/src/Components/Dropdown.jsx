@@ -3,7 +3,7 @@ import { clearCredentials } from '../Slices/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../Slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-// import { removeMed } from '../Slices/medSlice';
+import { toast } from 'react-toastify';
 
 const Dropdown = () => {
     const navigate = useNavigate()
@@ -20,12 +20,17 @@ const Dropdown = () => {
         try {
             await logoutApiCall().unwrap()
             dispatch(clearCredentials())
-            // dispatch(removeMed())
-            navigate('/')
+            navigate('/login')
         } catch (error) {
             console.log(error);
+            if (error.status === 401) {
+                toast.error('Token expired or not available. Logging out!');
+                dispatch(clearCredentials());
+                navigate('/login');
+              } else {
+                console.error('Error during logout:', error);
+              }
         }
-
     }
 
   return (
