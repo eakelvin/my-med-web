@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import LoadingSpinner from '../Components/Spinner'
-import { useGetRecordMutation } from '../Slices/recordSlice'
+import { useGetRecordsMutation, useUpdateRecordsMutation } from '../Slices/recordSlice'
 import { toast } from 'react-toastify'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const UpdateMedicals = () => {
   const navigate = useNavigate()
-  const { recordId } = useParams()
+  // const { recordId } = useParams()
   const { userInfo } = useSelector((state) => state.auth)
-  const [getRecords] = useGetRecordMutation()
+  const [getRecords] = useGetRecordsMutation()
+  const [updateRecords, { isLoading }] = useUpdateRecordsMutation()
 
   const [bloodType, setBloodType] = useState('')
   const [disease, setDisease] = useState('')
@@ -23,49 +24,50 @@ const UpdateMedicals = () => {
   useEffect(() => {
     const fetchMedicalDetails = async () => {
       try {
-        const res = await getRecords(recordId).unwrap()
-        setBloodType(res.bloodType)
-        setDisease(res.disease)
-        setEpilepsy(res.epilepsy)
-        setOrgan(res.organ)
-        setHeight(res.height)
-        setWeight(res.weight)
-        setConditions(res.conditions)
-        setAllergies(res.allergies)
-        console.log(res);
+        const response = await getRecords(userInfo._id).unwrap()
+
+        if (response && response.length > 0) {
+          const res = response[0]
+          setBloodType(res.bloodType)
+          setDisease(res.disease)
+          setEpilepsy(res.epilepsy)
+          setOrgan(res.organ)
+          setHeight(res.height)
+          setWeight(res.weight)
+          setConditions(res.conditions)
+          setAllergies(res.allergies)
+          // console.log(res);
+        } else {
+          toast.error('No records found')
+        }
+       
       } catch (error) {
         console.error('Error fetching medicine:', error);
       }
     }
 
     fetchMedicalDetails()
-  }, [])
+  }, [getRecords, userInfo._id])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(bloodType, disease, epilepsy, organ, height, weight, conditions, allergies);
-    console.log('Success!!');
-    // const user = userInfo._id
-    // const id = scheduleId
-    // console.log(user);
-    // console.log(id);
+    // console.log(bloodType, disease, epilepsy, organ, height, weight, conditions, allergies);
+    const user = userInfo._id
 
-    // try {
-    //   const res = await updateMedicine({ 
-    //     id,
-    //     data: {
-    //       user, name, type, dosage, duration, intervalValue, start, extraTime, when 
-    //     } 
-    //   }).unwrap()
-    //   console.log(res);
-    //   if (res) {
-    //     navigate('/schedule')
-    //     toast.success('Medication Updated Successfully')
-    //   }
-    // } catch (error) {
-    //   console.error('Error:', error);
-    //   toast.error(error.message || error?.error || 'An error occurred');
-    // }
+    try {
+      const res = await updateRecords({ 
+        id: user,
+        data: { user, bloodType, disease, epilepsy, organ, height, weight, conditions, allergies } 
+      }).unwrap()
+      console.log(res);
+      if (res) {
+        navigate('/profile')
+        toast.success('Records Updated Successfully')
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error(error.message || error?.error || 'An error occurred');
+    }
   }
   
 

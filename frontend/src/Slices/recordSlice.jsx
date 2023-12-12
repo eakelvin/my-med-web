@@ -23,8 +23,8 @@ export const recordsApiSlice = apiSlice.injectEndpoints({
             })
         }),
         updateRecords: builder.mutation({
-            query: (data) => ({
-                url: `${RECORDS_URL}/update`,
+            query: ({ id, data}) => ({
+                url: `${RECORDS_URL}/update/${id}`,
                 method: 'PUT',
                 body: data
             })
