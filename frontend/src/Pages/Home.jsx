@@ -65,7 +65,9 @@ const Home = () => {
                                 </div>
                             </div>
                             <div>
-                                <IoNotificationsCircleOutline size={50} />
+                                <Link to='/reminder'>
+                                    <IoNotificationsCircleOutline size={50} />
+                                </Link>
                             </div>
                         </div>
                        

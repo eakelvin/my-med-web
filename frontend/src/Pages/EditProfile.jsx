@@ -35,7 +35,7 @@ const EditProfile = () => {
         setGender(userInfo.gender);
         setDateOfBirth(formattedDate);
       }
-      console.log(userInfo);
+    //   console.log(userInfo);
     }, [userInfo]);
 
     const handleSubmit = async (e) => {
