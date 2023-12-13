@@ -11,11 +11,32 @@ import { toast } from 'react-toastify'
 import LoadingSpinner from '../Components/Spinner'
 
 const Home = () => {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     const { userInfo } = useSelector((state) => state.auth)
     const [scheduled, setScheduled] = useState([]);
     const [getMedicines, { isLoading }] = useGetMedicinesMutation()
+    const [logoutApiCall] = useLogoutMutation()
+
+    const handleLogout = async () => {
+        try {
+            await logoutApiCall().unwrap()
+            dispatch(clearCredentials())
+            navigate('/login')
+        } catch (error) {
+            console.log(error);
+            if (error.status === 401) {
+                toast.error('Token expired or not available. Logging out!');
+                dispatch(clearCredentials());
+                navigate('/login');
+              } else {
+                console.error('Error during logout:', error);
+              }
+        }
+    }
 
     useEffect(() => {
+        // console.log('Effect is running');
         const fetchMedicines = async () => {
           try {
             const res = await getMedicines(userInfo._id).unwrap();
@@ -25,16 +46,20 @@ const Home = () => {
             console.error('Error fetching medicines:', error);
             if (error.status === 403) {
               toast.error('You do not have permission to access your medicines.');
-            } else {
+            } else if (error.status === 401) {
+                toast.error('Authentication Error. Redirecting to login page')
+                handleLogout()
+            }
+            else {
               toast.error('Error fetching medicines. Please try again later.');
             }
           }
         };
     
         fetchMedicines();
-      }, [getMedicines, userInfo._id]);
+    }, [getMedicines, userInfo._id]);
 
-      const mostCurrentMedicine = scheduled.length > 0 ? scheduled[0] : null;
+    const mostCurrentMedicine = scheduled.length > 0 ? scheduled[0] : null;
 
     return (
         <div className='p-5'>
