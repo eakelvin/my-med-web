@@ -9,6 +9,7 @@ const { notFound, errorHandler } = require('./src/middleware/errorMiddleware')
 const userRoute = require('./src/routes/userRoute')
 const medicineRoute = require('./src/routes/medicineRoute')
 const recordRoute = require('./src/routes/recordRoute')
+const reportRoute = require('./src/routes/reportRoute')
 
 connectDatabase()
 server.use(express.json())
@@ -18,6 +19,7 @@ server.use(cookieParser())
 server.use('/api/users', userRoute)
 server.use('/api/medicines', medicineRoute)
 server.use('/api/records', recordRoute)
+server.use('/api/reports', reportRoute)
 
 
 server.get('/', (req, res) => res.send('My Med Server'))

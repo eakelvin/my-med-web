@@ -112,9 +112,9 @@ const Home = () => {
             </div>
 
             <div className="p-16">
-                <Link to='/reminder'>
+                {/* <Link to='/reminder'> */}
                     <img className='mx-auto' src="./addpill.png" alt="" />
-                </Link>
+                {/* </Link> */}
                 <p className='text-center'>Enter medication details and set reminder</p>
             </div>
         

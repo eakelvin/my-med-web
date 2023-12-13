@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import LoadingSpinner from '../Components/Spinner';
 import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom';
+import Dropdown from '../Components/Dropdown';
 
 const Schedule = () => {
     const [scheduled, setScheduled] = useState([])
@@ -46,6 +47,7 @@ const Schedule = () => {
 
   return (
       <div className="p-5">
+        <Dropdown />
         <div className="border-b-2 border-slate-200">
             <p className="font-bold text-2xl">Schedule</p>
             <p className='text-sm'>Tap to edit or delete scheduled reminders</p>

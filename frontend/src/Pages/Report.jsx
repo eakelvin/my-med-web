@@ -1,12 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Dropdown from '../Components/Dropdown'
 import { FaShare } from "react-icons/fa6";
 import { SlGraph } from "react-icons/sl";
 import { FaRegCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { BsGraphDownArrow } from "react-icons/bs";
+import { useSelector } from 'react-redux';
+import { useGetPageVisitsMutation } from '../Slices/reportSlice';
+import { toast } from 'react-toastify';
+
 
 const Report = () => {
+  const [getPageVisits, { isLoading }] = useGetPageVisitsMutation()
+  const { userInfo } = useSelector((state) => state.auth)
+  const [pageVisits, setPageVisits] = useState(0)
+
+  useEffect(() => {
+    const getReports = async () => {
+      try {
+        const id = userInfo._id
+        const res = await getPageVisits(id).unwrap()
+        console.log(res);
+        setPageVisits(res.pageVisits)
+      } catch (error) {
+        console.error('Error:', error);
+        toast.error(error.message || error?.error || 'An error occurred');
+      }
+    }
+
+    getReports()
+  }, [])
+
   return (
     <div className='p-5'>
       <Dropdown />
