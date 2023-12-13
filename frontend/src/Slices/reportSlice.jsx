@@ -12,7 +12,7 @@ export const reportsApiSlice = apiSlice.injectEndpoints({
         }),
         getPageVisits: builder.mutation({
             query: (id) => ({
-                url: `${REPORTS_URL}/page-visits/${id}`,
+                url: `${REPORTS_URL}/visits/${id}`,
                 method: 'GET',
             })
         }),

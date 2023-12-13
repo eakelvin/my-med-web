@@ -18,8 +18,7 @@ const Report = () => {
   useEffect(() => {
     const getReports = async () => {
       try {
-        const id = userInfo._id
-        const res = await getPageVisits(id).unwrap()
+        const res = await getPageVisits(userInfo._id).unwrap()
         console.log(res);
         setPageVisits(res.pageVisits)
       } catch (error) {
@@ -56,7 +55,7 @@ const Report = () => {
           <div className='flex justify-center'>
             <SlGraph size={50} />
             <h1 className='ml-3'>
-              <span className='font-extrabold text-xl'>233</span>
+              <span className='font-extrabold text-xl'>{pageVisits}</span>
               Visits
             </h1>
           </div>

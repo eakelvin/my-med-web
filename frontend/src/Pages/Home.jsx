@@ -17,6 +17,7 @@ const Home = () => {
     const [scheduled, setScheduled] = useState([]);
     const [getMedicines, { isLoading }] = useGetMedicinesMutation()
     const [logoutApiCall] = useLogoutMutation()
+    
 
     const handleLogout = async () => {
         try {
