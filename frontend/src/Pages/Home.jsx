@@ -9,6 +9,7 @@ import { FaPills } from "react-icons/fa";
 import { useGetMedicinesMutation } from '../Slices/medicineSlice'
 import { toast } from 'react-toastify'
 import LoadingSpinner from '../Components/Spinner'
+import { useUpdatePageVisitsMutation } from '../Slices/reportSlice'
 
 const Home = () => {
     const navigate = useNavigate()
@@ -17,6 +18,7 @@ const Home = () => {
     const [scheduled, setScheduled] = useState([]);
     const [getMedicines, { isLoading }] = useGetMedicinesMutation()
     const [logoutApiCall] = useLogoutMutation()
+    const [updatePageVisits] = useUpdatePageVisitsMutation()
     
 
     const handleLogout = async () => {
@@ -35,6 +37,20 @@ const Home = () => {
               }
         }
     }
+
+    useEffect(() => {
+        const updatePage = async () => {
+            try {
+                const userId = userInfo._id;
+                const res = await updatePageVisits({user: userId}).unwrap()
+                console.log('Page visit counted:', res.pageVisits);
+            } catch (error) {
+                console.error('Error fetching Page Visits:', error);
+            }
+        }
+
+        updatePage()
+    }, [])
 
     useEffect(() => {
         // console.log('Effect is running');
