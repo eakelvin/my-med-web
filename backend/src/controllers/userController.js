@@ -1,12 +1,34 @@
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
+const Report = require('../models/report')
 const generateToken = require('../utils/generateToken')
+
+const logPageVisit = async (userId, pagePath) => {
+    try {
+        // const pageVisit = new Report({
+        //     userId,
+        //     pagePath,
+        // });
+
+        // await pageVisit.save();
+
+        const pageVisit = await Report.findOneAndUpdate(
+            { user: userId, pagePath },
+            { $inc: { pageVisits: 1 } },
+            { upsert: true, new: true }
+        );
+        console.log(pageVisit);
+    } catch (error) {
+        console.error('Error logging page visit:', error);
+    }
+};
 
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
     if (user && (await user.matchPassword(password))) {
         generateToken(res, user._id)
+        await logPageVisit(user._id, req.path)
         res.status(201).json({
             _id: user._id,
             firstname: user.firstname,

@@ -4,12 +4,16 @@ const Schema = mongoose.Schema
 const reportSchema = new mongoose.Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     pageVisits: {
         type: Number,
         default: 0,
-        required: true
+    },
+    pagePath: {
+        type: String,
+        required: true,
     },
 
 },{timestamps: true})

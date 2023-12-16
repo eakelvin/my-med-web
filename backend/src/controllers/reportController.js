@@ -27,15 +27,29 @@ const countVisits = async(req, res) => {
 
 const getPageVisits = async(req, res) => {
     const userId = req.params.user
+
+    // try {
+    //     const page = await Report.findById(userId)
+    //     if (!page) {
+    //         return res.status(404).json({ error: "User not found"})
+    //     }
+    //     res.json({ pageVisits: page.pageVisits })
+    // } catch (error) {
+    //     res.status(500).json({ error: 'Interval Server Error'})
+    // }
+
     try {
-        const page = await Report.findById(userId)
-        if (!page) {
-            return res.status(404).json({ error: "User not found"})
+        const report = await Report.findOne({ user: userId });
+    
+        if (!report) {
+          return res.status(404).json({ error: 'User not found in reports' });
         }
-        res.json({ pageVisits: page.pageVisits })
-    } catch (error) {
-        res.status(500).json({ error: 'Interval Server Error'})
-    }
+    
+        res.status(200).json({ pageVisits: report.pageVisits });
+      } catch (error) {
+        console.error('Error fetching page visits:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
 }
 
 module.exports = { countVisits, getPageVisits }

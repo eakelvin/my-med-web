@@ -7,6 +7,6 @@ const {
 } = require('../controllers/reportController')
 
 router.post('/count', countVisits)
-router.get('/visits/:id', getPageVisits)
+router.get('/visits/', getPageVisits)
 
 module.exports = router
