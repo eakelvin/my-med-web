@@ -19,8 +19,9 @@ const Report = () => {
     const getReports = async () => {
       try {
         const res = await getPageVisits(userInfo._id).unwrap()
-        console.log(res);
-        setPageVisits(res.pageVisits)
+        // console.log(res);
+        const totalPageVisits = res.reduce((total, visit) => total + visit.pageVisits, 0);
+        setPageVisits(totalPageVisits)
       } catch (error) {
         console.error('Error:', error);
         toast.error(error.message || error?.error || 'An error occurred');
@@ -55,7 +56,7 @@ const Report = () => {
           <div className='flex justify-center'>
             <SlGraph size={50} />
             <h1 className='ml-3'>
-              <span className='font-extrabold text-xl'>{pageVisits}</span>
+              <span className='font-extrabold text-xl mx-1'>{pageVisits}</span>
               Visits
             </h1>
           </div>

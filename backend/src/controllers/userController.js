@@ -17,7 +17,7 @@ const logPageVisit = async (userId, pagePath) => {
             { $inc: { pageVisits: 1 } },
             { upsert: true, new: true }
         );
-        console.log(pageVisit);
+        // console.log(pageVisit);
     } catch (error) {
         console.error('Error logging page visit:', error);
     }
