@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef  } from 'react'
 import Dropdown from '../Components/Dropdown'
 import { FaShare } from "react-icons/fa6";
 import { SlGraph } from "react-icons/sl";
@@ -8,12 +8,15 @@ import { BsGraphDownArrow } from "react-icons/bs";
 import { useSelector } from 'react-redux';
 import { useGetPageVisitsMutation } from '../Slices/reportSlice';
 import { toast } from 'react-toastify';
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 
 
 const Report = () => {
   const [getPageVisits, { isLoading }] = useGetPageVisitsMutation()
   const { userInfo } = useSelector((state) => state.auth)
   const [pageVisits, setPageVisits] = useState(0)
+  const pdfRef = useRef()
 
   useEffect(() => {
     const getReports = async () => {
@@ -31,9 +34,27 @@ const Report = () => {
     getReports()
   }, [])
 
+  const downloadPDF = () => {
+    const input = pdfRef.current
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF('p', 'mm', 'a4')
+      const pdfWidth = pdf.internal.pageSize.getWidth()
+      const pdfHeight = pdf.internal.pageSize.getHeight()
+      const imgWidth = canvas.width
+      const imgHeight = canvas.height
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight)
+      const imgX = (pdfWidth - imgWidth * ratio) / 2
+      const imgY = 30 
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio)
+      pdf.save('report.pdf')
+    })
+  }
+
   return (
     <div className='p-5'>
       <Dropdown />
+      <div ref={pdfRef}>
 
       <div className='flex justify-between'>
         <div>
@@ -41,8 +62,10 @@ const Report = () => {
           <p className='text-sm text-slate-500'>This is an overall view of your medicine reports</p>
         </div>
         <div>
-          <button className='flex text-xl border border-green-500 px-2 py-1 rounded-lg hover:bg-slate-500'>
-            Share
+          <button 
+            onClick={downloadPDF} 
+            className='flex text-xl border border-green-500 px-2 py-1 rounded-lg hover:bg-slate-500'>
+              Share
             <span className='mx-2 mt-1'><FaShare /></span>
           </button>
         </div>
@@ -56,7 +79,7 @@ const Report = () => {
           <div className='flex justify-center'>
             <SlGraph size={50} />
             <h1 className='ml-3'>
-              <span className='font-extrabold text-xl mx-1'>{pageVisits}</span>
+              <span className='font-extrabold text-2xl mx-1'>{pageVisits}</span>
               Visits
             </h1>
           </div>
@@ -110,6 +133,7 @@ const Report = () => {
         </div>
       </div>
 
+      </div>
     </div>
   )
 }
