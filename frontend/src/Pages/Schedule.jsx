@@ -33,6 +33,11 @@ const Schedule = () => {
     }, [getMedicines, userInfo._id])
 
     const handleDelete = async (id) => {
+        const isConfirmed = window.confirm('Are you sure you want to delete this medicine?')
+        if (!isConfirmed) {
+            return;
+        }
+        
         try {
           await deleteMedicine(id).unwrap();
           setScheduled((prev) =>

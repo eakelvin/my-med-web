@@ -23,9 +23,9 @@ const Home = () => {
 
     useEffect(() => {
         const socket = io('http://localhost:3000')
-        console.log(socket.on('firstEvent', (msg) => {
-            console.log(msg);
-        }));
+        // console.log(socket.on('firstEvent', (msg) => {
+        //     console.log(msg);
+        // }));
     }, [])
 
     const handleLogout = async () => {
