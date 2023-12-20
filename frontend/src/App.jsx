@@ -20,7 +20,6 @@ import EditSchedule from './Pages/EditSchedule';
 import UpdateMedicals from './Pages/UpdateMedicals';
 import CreateRecord from './Pages/CreateRecord';
 
-
 function App() {
   return (
     <Router>

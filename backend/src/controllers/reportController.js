@@ -24,7 +24,8 @@ const countVisits = async(req, res) => {
 
 const getPageVisits = async(req, res) => {
     try {
-        const pageVisits = await Report.find().select('pagePath pageVisits');
+        const userId = req.user._id
+        const pageVisits = await Report.find({ user: userId}).select('pagePath pageVisits');
         res.json(pageVisits);
     } catch (error) {
         console.error('Error fetching page visits:', error);

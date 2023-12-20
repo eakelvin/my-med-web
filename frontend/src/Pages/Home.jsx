@@ -10,6 +10,7 @@ import { useGetMedicinesMutation } from '../Slices/medicineSlice'
 import { toast } from 'react-toastify'
 import LoadingSpinner from '../Components/Spinner'
 import { useUpdatePageVisitsMutation } from '../Slices/reportSlice'
+import { io } from 'socket.io-client'
 
 const Home = () => {
     const navigate = useNavigate()
@@ -38,19 +39,10 @@ const Home = () => {
         }
     }
 
-    // useEffect(() => {
-    //     const updatePage = async () => {
-    //         try {
-    //             const userId = userInfo._id;
-    //             const res = await updatePageVisits({user: userId}).unwrap()
-    //             console.log('Page visit counted:', res.pageVisits);
-    //         } catch (error) {
-    //             console.error('Error fetching Page Visits:', error);
-    //         }
-    //     }
-
-    //     updatePage()
-    // }, [])
+    useEffect(() => {
+        const socket = io('http://localhost:3000')
+        console.log(socket);
+    }, [])
 
     useEffect(() => {
         // console.log('Effect is running');
@@ -60,7 +52,7 @@ const Home = () => {
             const sortedMedicines = [...res].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             setScheduled(sortedMedicines);
           } catch (error) {
-            console.error('Error fetching medicines:', error);
+            // console.error('Error fetching medicines:', error);
             if (error.status === 403) {
               toast.error('You do not have permission to access your medicines.');
             } else if (error.status === 401) {

@@ -34,6 +34,7 @@ const Register = () => {
             try {
                 const res = await register({ firstname, lastname, email, password, dateOfBirth, number }).unwrap()
                 dispatch(setCredentials({...res}))
+                toast.success('Account Created Successfully')
                 navigate('/login')
             } catch (error) {
                 toast.error(error.data.message || error.error);
