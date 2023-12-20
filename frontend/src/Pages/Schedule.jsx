@@ -17,7 +17,8 @@ const Schedule = () => {
         const fetchMedicines = async () => {
             try {
                 const res = await getMedicines(userInfo._id).unwrap()
-                setScheduled(res)
+                const sortedSchedules = [...res].sort((a, b) => new Date(b.start) - new Date(a.start));
+                setScheduled(sortedSchedules)
             } catch (error) {
                 console.error('Error fetching medicines:', error);
                 if (error.status === 403) {
