@@ -1,20 +1,13 @@
 const express = require('express')
 const http = require('http')
 require('dotenv').config()
-// const { Server } = require('socket.io')
-const socketIo = require('socket.io')
 const cookieParser = require('cookie-parser')
 const server = express()
 const PORT = process.env.PORT || 3000
 const path = require('path')
 const httpServer = http.createServer(server)
 const cors = require('cors')
-
-const io = socketIo(httpServer, {
-    cors: {
-        origin: 'http://localhost:5173',
-    }
-})
+const setupSocket = require('./socket')
 
 const connectDatabase = require('./src/config/database')
 const { notFound, errorHandler } = require('./src/middleware/errorMiddleware')
@@ -23,16 +16,7 @@ const medicineRoute = require('./src/routes/medicineRoute')
 const recordRoute = require('./src/routes/recordRoute')
 const reportRoute = require('./src/routes/reportRoute')
 
-io.on('connection', (socket) => {
-    socket.on('connect', () => {
-        console.log('Socket connected to the server.');
-    });
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    })
-})
-
+setupSocket(httpServer)
 connectDatabase()
 server.use(express.json())
 server.use(express.urlencoded({ extended: true }))

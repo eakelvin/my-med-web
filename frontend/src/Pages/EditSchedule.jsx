@@ -19,7 +19,7 @@ const EditSchedule = () => {
   const [type, setType] = useState('')
   const [dosage, setDosage] = useState('')
   const [duration, setDuration] = useState('')
-  const [intervalValue, setIntervalValue] = useState('')
+  const [days, setDays] = useState('')
   const [start, setStart] = useState('')
   const [extraTime, setExtraTime] = useState('')
   const [when, setWhen] = useState('')
@@ -38,11 +38,11 @@ const EditSchedule = () => {
       setType(res.type)
       setDosage(res.dosage)
       setDuration(res.duration)
-      setIntervalValue(res.intervalValue)
+      setDays(res.interval)
       setStart(formattedDate)
       setExtraTime(res.extraTime)
       setWhen(res.when)
-      // console.log(res);
+      console.log(res);
       } catch (error) {
         console.error('Error fetching medicine:', error);
       }
@@ -62,7 +62,7 @@ const EditSchedule = () => {
       const res = await updateMedicine({ 
         id,
         data: {
-          user, name, type, dosage, duration, intervalValue, start, extraTime, when 
+          user, name, type, dosage, duration, days, start, extraTime, when 
         } 
       }).unwrap()
       console.log(res);
@@ -185,9 +185,9 @@ const EditSchedule = () => {
             <div className="mt-4">
                 <p className="font-bold text-lg">Days Interval</p>
                   <select 
-                    name="interval"
-                    value={intervalValue}
-                    onChange={(e) => setIntervalValue(e.target.value)}
+                    name="days"
+                    value={days}
+                    onChange={(e) => setDays(e.target.value)}
                     required
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                       <option defaultValue>Choose an Interval</option>

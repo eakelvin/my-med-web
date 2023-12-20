@@ -20,7 +20,13 @@ const Home = () => {
     const [getMedicines, { isLoading }] = useGetMedicinesMutation()
     const [logoutApiCall] = useLogoutMutation()
     // const [updatePageVisits] = useUpdatePageVisitsMutation()
-    
+
+    useEffect(() => {
+        const socket = io('http://localhost:3000')
+        console.log(socket.on('firstEvent', (msg) => {
+            console.log(msg);
+        }));
+    }, [])
 
     const handleLogout = async () => {
         try {
@@ -38,11 +44,6 @@ const Home = () => {
               }
         }
     }
-
-    useEffect(() => {
-        const socket = io('http://localhost:3000')
-        console.log(socket);
-    }, [])
 
     useEffect(() => {
         // console.log('Effect is running');
