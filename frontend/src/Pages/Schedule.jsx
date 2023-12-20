@@ -56,8 +56,8 @@ const Schedule = () => {
         { isLoading && <LoadingSpinner />}
 
         {   scheduled && 
-            scheduled.length > 0 && 
-            scheduled.map((schedule) =>
+            scheduled.length > 0 ? ( 
+            scheduled.map((schedule) => (
                 <div key={schedule._id} className="mt-5 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <GiMedicinePills size={30} />
                     <p className="mb-1 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{schedule.dosage}</p>
@@ -78,6 +78,11 @@ const Schedule = () => {
                         Delete
                     </button>
                     </div>
+                </div>
+                ))
+            ) : (
+                <div className='mt-5 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
+                    <p>No Schedule Available</p>
                 </div>
         )}
     </div>
