@@ -129,21 +129,28 @@ const Graph = () => {
 
   return (
     <>
-    <div className='mt-3 flex justify-between'>
-      <div>
-        <h1 className='text-sm font-normal'>Overall Months</h1>
-        <p className='font-bold'>38.40%</p>
+    <div className="mb-5">
+      <div className='flex justify-between'>
+        <h1 className='text-md font-bold'>Medical Treatment</h1>
+        <p className='text-sm text-green-700'>20% High then last month</p>
       </div>
-      <div>
-        <h1 className='text-sm font-normal'>This Month</h1>
+    
+      <div className='mt-3 flex justify-between'>
         <div>
-          {Object.entries(percentage).map(([monthYear, value]) => (
-          <p 
-            className='font-bold' 
-            key={monthYear}>
-              {`${value.toFixed(2)}%`}
-            </p>
-          ))}
+          <h1 className='text-sm font-normal'>Overall Months</h1>
+          <p className='font-bold'>38.40%</p>
+        </div>
+        <div>
+          <h1 className='text-sm font-normal'>This Month</h1>
+          <div>
+            {Object.entries(percentage).map(([monthYear, value]) => (
+            <p 
+              className='font-bold' 
+              key={monthYear}>
+                {`${value.toFixed(2)}%`}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </div>

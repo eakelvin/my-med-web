@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import Graph from '../Components/Chart';
+import Donut from '../Components/Timing';
 
 
 const Report = () => {
@@ -93,7 +94,8 @@ const Report = () => {
         <h1 className='font-semibold text-lg'>Medication Timing</h1>
         <p className='text-sm text-slate-500'>This tracks the timimg of your medications and also tell you when you are late</p>
         <div className='mt-1 border border-slate-600 p-5'>
-          <div className='flex justify-center'>
+          <Donut />
+          {/* <div className='flex justify-center'>
             <FaRegCircle size={100} />
             <div className='ml-2 grid grid-cols-1'>
               <div><h1 className=''>Pill Timing</h1></div>
@@ -106,22 +108,16 @@ const Report = () => {
                 <p>Late</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
       <div className='mt-3'>
         <h1 className='font-semibold text-lg'>Medication</h1>
         <div className='mt-1 border border-slate-600 p-5 rounded-lg'>
-          <div className='flex justify-between'>
-            <h1 className='text-md font-bold'>Medical Treatment</h1>
-            <p className='text-sm text-green-700'>20% High then last month</p>
-          </div>
-
           <div className='mt-1'>
             <Graph />
           </div>
-          
         </div>
       </div>
 
