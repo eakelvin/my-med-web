@@ -14,7 +14,7 @@ import Graph from '../Components/Chart';
 
 
 const Report = () => {
-  const [getPageVisits, { isLoading }] = useGetPageVisitsMutation()
+  const [getPageVisits] = useGetPageVisitsMutation()
   const { userInfo } = useSelector((state) => state.auth)
   const [pageVisits, setPageVisits] = useState(0)
   const pdfRef = useRef()
@@ -110,8 +110,6 @@ const Report = () => {
         </div>
       </div>
 
-      {/* <Graph /> */}
-
       <div className='mt-3'>
         <h1 className='font-semibold text-lg'>Medication</h1>
         <div className='mt-1 border border-slate-600 p-5 rounded-lg'>
@@ -120,19 +118,8 @@ const Report = () => {
             <p className='text-sm text-green-700'>20% High then last month</p>
           </div>
 
-          <div className='mt-3 flex justify-between'>
-            <div>
-              <h1 className='text-sm font-normal'>Overall Months</h1>
-              <p className='font-bold'>38.40%</p>
-            </div>
-            <div>
-              <h1 className='text-sm font-normal'>This Month</h1>
-              <p className='font-bold'>52.49%</p>
-            </div>
-          </div>
-
-          <div className='mt-4'>
-            <BsGraphDownArrow size={100} />
+          <div className='mt-1'>
+            <Graph />
           </div>
           
         </div>
