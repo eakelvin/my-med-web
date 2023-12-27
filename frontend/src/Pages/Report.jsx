@@ -90,12 +90,12 @@ const Report = () => {
         </div>
       </div>
 
-      <div className='mt-3'>
+      {/* <div className='mt-3'>
         <h1 className='font-semibold text-lg'>Medication Timing</h1>
         <p className='text-sm text-slate-500'>This tracks the timimg of your medications and also tell you when you are late</p>
         <div className='mt-1 border border-slate-600 p-5'>
           <Donut />
-          {/* <div className='flex justify-center'>
+          <div className='flex justify-center'>
             <FaRegCircle size={100} />
             <div className='ml-2 grid grid-cols-1'>
               <div><h1 className=''>Pill Timing</h1></div>
@@ -108,9 +108,9 @@ const Report = () => {
                 <p>Late</p>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
-      </div>
+      </div> */}
 
       <div className='mt-3'>
         <h1 className='font-semibold text-lg'>Medication</h1>
