@@ -1,24 +1,42 @@
-import React, { useEffect, useState, useRef  } from 'react'
-import Dropdown from '../Components/Dropdown'
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaShare } from "react-icons/fa6";
 import { SlGraph } from "react-icons/sl";
-import { FaRegCircle } from "react-icons/fa";
-import { GoDotFill } from "react-icons/go";
-import { BsGraphDownArrow } from "react-icons/bs";
-import { useSelector } from 'react-redux';
-import { useGetPageVisitsMutation } from '../Slices/reportSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
 import Graph from '../Components/Chart';
-import Donut from '../Components/Timing';
+import Dropdown from '../Components/Dropdown';
+import { useGetPageVisitsMutation } from '../Slices/reportSlice';
+import { useNavigate } from 'react-router-dom';
+import { useLogoutMutation } from '../Slices/userSlice';
 
 
 const Report = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [getPageVisits] = useGetPageVisitsMutation()
   const { userInfo } = useSelector((state) => state.auth)
   const [pageVisits, setPageVisits] = useState(0)
   const pdfRef = useRef()
+  const [logoutApiCall] = useLogoutMutation()
+
+  const handleLogout = async () => {
+    try {
+        await logoutApiCall().unwrap()
+        dispatch(clearCredentials())
+        navigate('/login')
+    } catch (error) {
+        console.log(error);
+        if (error.status === 401) {
+            toast.error('Token expired or not available. Logging out!');
+            dispatch(clearCredentials());
+            navigate('/login');
+          } else {
+            console.error('Error during logout:', error);
+          }
+    }
+}
 
   const downloadPDF = () => {
     const input = pdfRef.current
@@ -46,8 +64,17 @@ const Report = () => {
         const totalPageVisits = res.reduce((total, visit) => total + visit.pageVisits, 0);
         setPageVisits(totalPageVisits)
       } catch (error) {
-        console.error('Error:', error);
-        toast.error(error.message || error?.error || 'An error occurred');
+        if (error.status === 403) {
+          toast.error('You do not have permission to access your reports.');
+        } else if (error.status === 401) {
+            toast.error('Authentication Error. Redirecting to login page')
+            handleLogout()
+        }
+        else {
+          toast.error('Error fetching report. Please try again later.');
+        }
+        // console.error('Error:', error);
+        // toast.error(error.message || error?.error || 'An error occurred');
       }
     }
 

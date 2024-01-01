@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import { FaPills } from "react-icons/fa"
+import { IoNotificationsCircleOutline } from "react-icons/io5"
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { useLogoutMutation } from '../Slices/userSlice'
-import { clearCredentials } from '../Slices/authSlice'
-import { IoNotificationsCircleOutline } from "react-icons/io5";
-import Dropdown from '../Components/Dropdown'
-import { FaPills } from "react-icons/fa";
-import { useGetMedicinesMutation } from '../Slices/medicineSlice'
 import { toast } from 'react-toastify'
-import LoadingSpinner from '../Components/Spinner'
-import { useUpdatePageVisitsMutation } from '../Slices/reportSlice'
 import { io } from 'socket.io-client'
+import Dropdown from '../Components/Dropdown'
+import LoadingSpinner from '../Components/Spinner'
+import { clearCredentials } from '../Slices/authSlice'
+import { useGetMedicinesMutation } from '../Slices/medicineSlice'
+import { useLogoutMutation } from '../Slices/userSlice'
 
 const Home = () => {
     const navigate = useNavigate()
@@ -46,7 +45,6 @@ const Home = () => {
     }
 
     useEffect(() => {
-        // console.log('Effect is running');
         const fetchMedicines = async () => {
           try {
             const res = await getMedicines(userInfo._id).unwrap();
