@@ -10,6 +10,7 @@ import Dropdown from '../Components/Dropdown';
 import { useGetPageVisitsMutation } from '../Slices/reportSlice';
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../Slices/userSlice';
+import { clearCredentials } from '../Slices/authSlice';
 
 
 const Report = () => {
