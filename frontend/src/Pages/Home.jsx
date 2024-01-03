@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FaPills } from "react-icons/fa"
-import { IoNotificationsCircleOutline } from "react-icons/io5"
+import { IoNotificationsCircleOutline, IoNotificationsOffCircle } from "react-icons/io5"
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -99,7 +99,7 @@ const Home = () => {
                             </div>
                             <div>
                                 <Link to='/reminder'>
-                                    <IoNotificationsCircleOutline size={50} />
+                                    {scheduled ? <IoNotificationsCircleOutline size={50} /> : <IoNotificationsOffCircle size={50} />  }
                                 </Link>
                             </div>
                         </div>
