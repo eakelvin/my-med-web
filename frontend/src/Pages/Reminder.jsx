@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { GiMedicinePills } from "react-icons/gi";
 import { IoNotificationsCircleOutline } from "react-icons/io5";
 import Dropdown from '../Components/Dropdown';
+import LoadingSpinner from '../Components/Spinner';
 
 const Reminder = () => {
     const { userInfo } = useSelector((state) => state.auth)
@@ -39,6 +40,8 @@ const Reminder = () => {
         <h1 className='font-bold'>Reminder</h1>
         <p className='text-sm text-slate-500'>Turn off reminder by selecting either of the options below</p>
       </div>
+
+      { isLoading && <LoadingSpinner />}
 
       <div className='mt-5 max-w-sm p-4 bg-white border border-green-500 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
         {mostCurrentMedicine ? (

@@ -160,7 +160,7 @@ const Graph = () => {
             options={options} 
             series={series} 
             type="line" 
-            width="500" 
+            width="350" 
             />
         </div>
       </div>
