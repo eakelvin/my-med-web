@@ -59,7 +59,9 @@ const Schedule = () => {
             <p className='text-sm'>Tap to edit or delete scheduled reminders</p>
         </div>
 
-        <div className='p-3'>{ isLoading && <LoadingSpinner />}</div>
+        <div className='p-3'>
+            { isLoading && <LoadingSpinner />}
+        </div>
 
         {   scheduled && 
             scheduled.length > 0 ? ( 

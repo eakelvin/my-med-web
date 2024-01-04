@@ -176,8 +176,6 @@ const Profile = () => {
                 </div>
 
 
-
-
                 <div className="p-5 text-center items-center">
                     <p className="text-mute">
                         Update your medical details frequently as it helps keeps
@@ -188,7 +186,7 @@ const Profile = () => {
                             Update
                         </Link>
                     </div>
-                    <p className="my-5 text-medium">Last updated Nov 27, 2023 at 8:37AM</p>
+                    {/* <p className="my-5 text-medium">Last updated Nov 27, 2023 at 8:37AM</p> */}
                 </div>
 
             </div>
