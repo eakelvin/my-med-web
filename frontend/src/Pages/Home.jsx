@@ -22,9 +22,15 @@ const Home = () => {
 
     useEffect(() => {
         const socket = io('http://localhost:3000')
-        // console.log(socket.on('firstEvent', (msg) => {
-        //     console.log(msg);
-        // }));
+        
+        socket.on('connection', () => {
+            console.log('Socket Connected');
+        })
+
+        socket.on("new_user", (data) => {
+            console.log('New User Logged In', data.message);
+        })
+
     }, [])
 
     const handleLogout = async () => {
