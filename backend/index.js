@@ -27,17 +27,20 @@ server.use('/api/medicines', medicineRoute)
 server.use('/api/records', recordRoute)
 server.use('/api/reports', reportRoute)
 
+// if (process.env.NODE_ENV === 'production') {
+//     const __dirname = path.resolve()
+//     server.use(express.static(path.join(__dirname, 'frontend/dist')))
 
-if (process.env.NODE_ENV === 'production') {
-    const __dirname = path.resolve()
-    server.use(express.static(path.join(__dirname, 'frontend/dist')))
+//     server.get('*', (req, res) => 
+//         res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
+//     )
+// } else {
+//     server.get('/', (req, res) => res.send('My Med Server'))
+// }
 
-    server.get('*', (req, res) => 
-        res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
-    )
-} else {
-    server.get('/', (req, res) => res.send('My Med Server'))
-}
+server.get('/', (req, res) => {
+    res.send('My Med Server')
+})
 
 server.use(notFound)
 server.use(errorHandler)
