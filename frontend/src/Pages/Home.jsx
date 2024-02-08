@@ -4,12 +4,12 @@ import { IoNotificationsCircleOutline, IoNotificationsOffCircle } from "react-ic
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { io } from 'socket.io-client'
 import Dropdown from '../Components/Dropdown'
 import LoadingSpinner from '../Components/Spinner'
 import { clearCredentials } from '../Slices/authSlice'
 import { useGetMedicinesMutation } from '../Slices/medicineSlice'
 import { useLogoutMutation } from '../Slices/userSlice'
+import { socket, runEvent, runLocalEvent } from '../Components/Socket'
 
 const Home = () => {
     const navigate = useNavigate()
@@ -21,18 +21,14 @@ const Home = () => {
     // const [updatePageVisits] = useUpdatePageVisitsMutation()
 
     useEffect(() => {
-        const socket = io('http://localhost:3000')
-        
-        socket.on('connection', () => {
-            console.log('Socket Connected');
-        })
+        runEvent()
 
         socket.on("new_user", (data) => {
-            console.log('New User Logged In', data.message);
+            toast.info(data.message)
+            console.log(data.message);
         })
-
     }, [])
-
+    
     const handleLogout = async () => {
         try {
             await logoutApiCall().unwrap()
@@ -46,7 +42,7 @@ const Home = () => {
                 navigate('/login');
               } else {
                 console.error('Error during logout:', error);
-              }
+            }
         }
     }
 
